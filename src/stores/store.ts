@@ -1,14 +1,10 @@
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 import { randomColor } from '@/utils/utils'
-import type { InnerTailType } from '@/components/Tail.vue'
+import type { InnerTailType, TailType } from '@/components/Tail.vue'
 
 export const useStore = defineStore('state', () => {
-  const tails = ref([
-    { color: 'red', id: 1, formActive: false },
-    { color: 'blue', id: 2, formActive: false },
-    { color: 'purple', id: 3, formActive: false }
-  ])
+  const tails: Ref<TailType> = ref([])
   function addTail() {
     console.log('Add Tail')
     const id = Math.random() * new Date()
@@ -23,10 +19,10 @@ export const useStore = defineStore('state', () => {
   function removeTail(tail: InnerTailType) {
     const { id } = tail
 
-    tails.value = tails.value.filter((item) => id !== item.id)
+    tails.value = tails.value.filter((item: InnerTailType) => id !== item.id)
   }
   function onBlur(id: number) {
-    const idx = tails.value.findIndex((item) => item.id == id)
+    const idx = tails.value.findIndex((item: InnerTailType) => item.id == id)
     tails.value[idx].formActive = false
   }
 
