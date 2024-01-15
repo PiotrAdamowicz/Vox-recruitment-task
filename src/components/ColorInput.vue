@@ -15,6 +15,7 @@ const store = useStore()
     :class="{ showForm: tail.formActive }"
     @blur="store.onBlur(tail.id)"
   >
+    <h1>Zmień kolor</h1>
     <label class="colorInputLabel" for="coloInput">Kolor: {{ tail.color }}</label>
     <div class="formBtns">
       <input
