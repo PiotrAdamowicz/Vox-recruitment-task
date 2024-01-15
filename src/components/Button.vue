@@ -10,7 +10,7 @@ defineProps<{
 .addBtn {
   padding: 1rem;
   margin: 1rem;
-  border-radius: 5px;
+  border-radius: 15px;
   border: 0;
   transition: ease-in 0.15s;
   font-weight: 500;

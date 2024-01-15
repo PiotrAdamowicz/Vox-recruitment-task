@@ -7,7 +7,7 @@ export const useStore = defineStore('state', () => {
   const tails = ref([
     { color: 'red', id: 1, formActive: false },
     { color: 'blue', id: 2, formActive: false },
-    { color: 'purple', id: 3, formActive: true }
+    { color: 'purple', id: 3, formActive: false }
   ])
   function addTail() {
     console.log('Add Tail')
@@ -25,6 +25,10 @@ export const useStore = defineStore('state', () => {
 
     tails.value = tails.value.filter((item) => id !== item.id)
   }
+  function onBlur(id: number) {
+    const idx = tails.value.findIndex((item) => item.id == id)
+    tails.value[idx].formActive = false
+  }
 
-  return { tails, addTail, removeTail }
+  return { tails, addTail, removeTail, onBlur }
 })

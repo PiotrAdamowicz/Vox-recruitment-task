@@ -1,36 +1,56 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+const { colorInput, tail } = defineProps<{ colorInput: string; tail: InnerTailType }>()
+import { useStore } from '@/stores/store'
+import type { InnerTailType } from './Tail.vue'
 import Button from './Button.vue'
 
-const { colorInput } = defineProps<{ colorInput: string; formActive: boolean }>()
+const store = useStore()
 </script>
 
 <template>
-  <form class="changeColorForm">
-    <label class="colorInputLabel" for="coloInput">Wybierz nowy kolor:</label>
-    <input
-      type="color"
-      :value="colorInput"
-      @input="$emit('update:colorInput', $event.target.value)"
-      name="colorInput"
-      id="colorInput"
-    />
+  <form
+    @submit="$event.preventDefault()"
+    v-show="tail.formActive"
+    class="changeColorForm"
+    :class="{ showForm: tail.formActive }"
+    @blur="store.onBlur(tail.id)"
+  >
+    <label class="colorInputLabel" for="coloInput">Kolor: {{ tail.color }}</label>
+    <div class="formBtns">
+      <input
+        type="color"
+        :value="colorInput"
+        @input="$emit('update:colorInput', $event.target.value)"
+        name="colorInput"
+        id="colorInput"
+      />
+      <Button @clickHandler="store.onBlur(tail.id)" text="zamknij" />
+    </div>
   </form>
 </template>
 <style scoped lang="scss">
+.formBtns {
+  display: flex;
+  align-items: center;
+}
 .changeColorForm {
   position: absolute;
+  z-index: 10;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.76);
-  border-radius: 5px;
+  background-color: rgb(109, 108, 114);
+  border-radius: 15px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 300px;
   height: 300px;
-  transform: scale(1);
+  transform: scale(0);
   transition: ease-in-out 0.3s;
+}
+.showForm {
+  transform: scale(1);
 }
 .clsoeBtn {
   position: absolute;
@@ -40,7 +60,7 @@ const { colorInput } = defineProps<{ colorInput: string; formActive: boolean }>(
 .colorInputLabel {
   color: black;
   padding: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 #colorInput {
   padding: 5px;

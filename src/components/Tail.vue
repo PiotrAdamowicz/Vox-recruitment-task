@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import Button from './Button.vue'
 import ColorInput from './ColorInput.vue'
+import { useStore } from '@/stores/store'
 
+const store = useStore()
 const { tail } = defineProps<TailType>()
 export interface TailType {
   tail: InnerTailType
@@ -22,12 +24,8 @@ function changeColorHandler(tail: InnerTailType) {
 <template>
   <li class="tail" :style="{ backgroundColor: currentColor }">
     <Button text="Zmień" @clickHandler="changeColorHandler(tail)" />
-    <Button text="Usuń" @clickHandler="$emit('removeHandler'), tail" />
-    <ColorInput
-      v-if="tail.formActive"
-      v-model:colorInput="currentColor"
-      @blur="$emit('onblure', tail)"
-    />
+    <Button text="Usuń" @clickHandler="store.removeTail(tail)" />
+    <ColorInput :tail="tail" v-model:colorInput="currentColor" />
   </li>
 </template>
 
